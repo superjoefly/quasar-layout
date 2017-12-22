@@ -14,7 +14,7 @@
 
     <!-- Navigation Tabs -->
     <q-tabs slot="navigation">
-      <q-route-tab slot="title" icon="input" to="/home" replace label="Home" />
+      <q-route-tab slot="title" icon="input" to="/" replace label="Home" />
       <q-route-tab slot="title" icon="view_quilt" to="/about" replace hide="icon" label="About" />
       <q-route-tab slot="title" icon="view_day" to="/contact" replace hide="icon" label="Contact" />
       <q-route-tab slot="title" icon="view_day" to="/more" replace label="More" />

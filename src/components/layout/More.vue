@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <p class="caption">Tabs</p>
+  <div class="layout-padding">
+    <p class="caption">More</p>
   </div>
 </template>
 

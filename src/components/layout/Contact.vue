@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <p class="caption">Drawer</p>
+  <div class="layout-padding">
+    <p class="caption">Contact</p>
   </div>
 </template>
 
