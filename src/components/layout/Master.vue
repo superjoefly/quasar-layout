@@ -3,21 +3,21 @@
   <q-layout ref="layout">
     <q-toolbar slot="header">
       <!-- opens drawer below -->
-      <button class="hide-on-drawer-visible" @click="$refs.layout.toggleLeft()">
+      <q-btn flat @click="$refs.layout.toggleLeft()">
         <i>menu</i>
-      </button>
+      </q-btn>
 
       <q-toolbar-title>
-        Title
+        Quasar Layout
       </q-toolbar-title>
     </q-toolbar>
 
     <!-- Navigation Tabs -->
     <q-tabs slot="navigation">
-      <q-route-tab slot="title" icon="input" to="/" replace label="Home" />
-      <q-route-tab slot="title" icon="view_quilt" to="/about" replace hide="icon" label="About" />
-      <q-route-tab slot="title" icon="view_day" to="/contact" replace hide="icon" label="Contact" />
-      <q-route-tab slot="title" icon="view_day" to="/more" replace label="More" />
+      <q-route-tab slot="title" icon="home" to="/" replace label="Home" />
+      <q-route-tab slot="title" icon="book" to="/about" replace hide="icon" label="About" />
+      <q-route-tab slot="title" icon="phone" to="/contact" replace hide="icon" label="Contact" />
+      <q-route-tab slot="title" icon="list" to="/more" replace label="More" />
     </q-tabs>
 
 
@@ -62,11 +62,11 @@
 </template>
 
 <script>
-import { QLayout, QToolbar, QToolbarTitle, QTabs, QRouteTab, QList, QListHeader, QItem, QItemSide, QItemMain } from 'quasar'
+import { QLayout, QToolbar, QToolbarTitle, QTabs, QRouteTab, QList, QListHeader, QItem, QItemSide, QItemMain, QBtn } from 'quasar'
 
 export default {
   components: {
-    QLayout, QToolbar, QToolbarTitle, QTabs, QRouteTab, QList, QListHeader, QItem, QItemSide, QItemMain
+    QLayout, QToolbar, QToolbarTitle, QTabs, QRouteTab, QList, QListHeader, QItem, QItemSide, QItemMain, QBtn
   },
   data () {
     return {}
