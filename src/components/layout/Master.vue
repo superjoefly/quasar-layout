@@ -1,6 +1,6 @@
 <template>
   <!-- Configure "view" prop for QLayout -->
-  <q-layout ref="layout">
+  <q-layout ref="layout" v-touch-swipe.horizontal="swiped">
     <q-toolbar slot="header">
       <!-- opens drawer below -->
       <q-btn flat @click="$refs.layout.toggleLeft()">
@@ -14,10 +14,10 @@
 
     <!-- Navigation Tabs -->
     <q-tabs slot="navigation">
-      <q-route-tab slot="title" icon="home" to="/" replace label="Home" />
-      <q-route-tab slot="title" icon="book" to="/about" replace hide="icon" label="About" />
-      <q-route-tab slot="title" icon="phone" to="/contact" replace hide="icon" label="Contact" />
-      <q-route-tab slot="title" icon="list" to="/more" replace label="More" />
+      <q-route-tab slot="title" icon="home" to="/home" label="Home" replace />
+      <q-route-tab slot="title" icon="book" to="/about" hide="icon" label="About" replace />
+      <q-route-tab slot="title" icon="phone" to="/contact" hide="icon" label="Contact" replace />
+      <q-route-tab slot="title" icon="list" to="/more" label="More" replace />
     </q-tabs>
 
 
@@ -51,7 +51,7 @@
     </div>
 
 
-    <router-view />
+    <router-view  />
 
     <!-- Footer -->
     <q-toolbar slot="footer">
@@ -62,14 +62,81 @@
 </template>
 
 <script>
-import { QLayout, QToolbar, QToolbarTitle, QTabs, QRouteTab, QList, QListHeader, QItem, QItemSide, QItemMain, QBtn } from 'quasar'
+/*eslint-disable*/
+import { QLayout, QToolbar, QToolbarTitle, QTabs, QRouteTab, QList, QListHeader, QItem, QItemSide, QItemMain, QBtn, TouchSwipe } from 'quasar'
 
 export default {
   components: {
     QLayout, QToolbar, QToolbarTitle, QTabs, QRouteTab, QList, QListHeader, QItem, QItemSide, QItemMain, QBtn
   },
+  directives: {
+    TouchSwipe
+  },
   data () {
     return {}
+  },
+  computed: {
+    currentPath () {
+      return this.$route.path
+    },
+    routeList () {
+      return this.$router.options.routes.map(function(route) {
+        return route.path
+      })
+    }
+  },
+  methods: {
+    // Determine direction of swipe
+    swiped (obj) {
+      let path = this.currentPath
+      let delta;
+
+      switch (obj.direction) {
+        case 'right':
+          delta = -1
+          break
+        case 'left':
+          delta = 1
+          break
+        default:
+          return
+      }
+
+      // If swipe is less than half window, just return
+      if (Math.abs(obj.distance.x) < 0.5 * window.innerWidth) {
+        return
+      }
+
+      this.routeList.getNext = function(delta, path) {
+        if (delta == -1) {
+          if (path == '/home') {
+            return
+          } else if (path == '/about') {
+            return '/home'
+          } else if (path == '/contact') {
+            return '/about'
+          } else {
+            return '/contact'
+          }
+        }
+        if (delta == 1) {
+          if (path == '/home') {
+            return '/about'
+          } else if (path == '/about') {
+            return '/contact'
+          } else if (path == '/contact') {
+            return '/more'
+          } else {
+            return
+          }
+        }
+      }
+
+      let goto = this.routeList.getNext(delta, path)
+      if (goto) {
+        this.$router.push(goto)
+      }
+    }
   }
 }
 </script>
