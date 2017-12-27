@@ -79,64 +79,98 @@ export default {
     currentPath () {
       return this.$route.path
     },
-    routeList () {
-      return this.$router.options.routes.map(function(route) {
-        return route.path
-      })
-    }
+    // routeList () {
+    //   return this.$router.options.routes.map((route) => route.path )}
   },
   methods: {
-    // Determine direction of swipe
-    swiped (obj) {
-      let path = this.currentPath
-      let delta;
-
-      switch (obj.direction) {
-        case 'right':
-          delta = -1
-          break
-        case 'left':
-          delta = 1
-          break
-        default:
+      swiped(obj) {
+        let path = this.currentPath
+        let goto = function() {
+          if (obj.direction == 'right') {
+            if (path == '/home') {
+              return
+            } else if (path == '/about') {
+              return '/home'
+            } else if (path == '/contact') {
+              return '/about'
+            } else {
+              return '/contact'
+            }
+          } else if (obj.direction == 'left') {
+            if (path == '/home') {
+              return '/about'
+            } else if (path == '/about') {
+              return '/contact'
+            } else if (path == '/contact') {
+              return '/more'
+            } else {
+              return
+            }
+          }
+        }
+        // If swipe is less than half window width, return
+        if (Math.abs(obj.distance.x) < 0.5 * window.innerWidth) {
           return
-      }
-
-      // If swipe is less than half window, just return
-      if (Math.abs(obj.distance.x) < 0.5 * window.innerWidth) {
-        return
-      }
-
-      this.routeList.getNext = function(delta, path) {
-        if (delta == -1) {
-          if (path == '/home') {
-            return
-          } else if (path == '/about') {
-            return '/home'
-          } else if (path == '/contact') {
-            return '/about'
-          } else {
-            return '/contact'
-          }
         }
-        if (delta == 1) {
-          if (path == '/home') {
-            return '/about'
-          } else if (path == '/about') {
-            return '/contact'
-          } else if (path == '/contact') {
-            return '/more'
-          } else {
-            return
-          }
+        // If goto returns a path, push to the router
+        if (goto()) {
+          this.$router.push(goto())
         }
-      }
+      } // end swiped()
 
-      let goto = this.routeList.getNext(delta, path)
-      if (goto) {
-        this.$router.push(goto)
-      }
-    }
+
+    // Another way using switch statement for delta
+    // Determine direction of swipe
+    // swiped (obj) {
+    //   let path = this.currentPath
+    //   let delta;
+    //
+    //   switch (obj.direction) {
+    //     case 'right':
+    //       delta = -1
+    //       break
+    //     case 'left':
+    //       delta = 1
+    //       break
+    //     default:
+    //       return
+    //   }
+    //
+    //   // If swipe is less than half window, just return
+    //   if (Math.abs(obj.distance.x) < 0.5 * window.innerWidth) {
+    //     return
+    //   }
+    //
+    //   this.routeList.getNext = function(delta, path) {
+    //     if (delta == -1) {
+    //       if (path == '/home') {
+    //         return
+    //       } else if (path == '/about') {
+    //         return '/home'
+    //       } else if (path == '/contact') {
+    //         return '/about'
+    //       } else {
+    //         return '/contact'
+    //       }
+    //     }
+    //     if (delta == 1) {
+    //       if (path == '/home') {
+    //         return '/about'
+    //       } else if (path == '/about') {
+    //         return '/contact'
+    //       } else if (path == '/contact') {
+    //         return '/more'
+    //       } else {
+    //         return
+    //       }
+    //     }
+    //   }
+    //
+    //   let goto = this.routeList.getNext(delta, path)
+    //   if (goto) {
+    //     this.$router.push(goto)
+    //   }
+    // }
   }
 }
 </script>
