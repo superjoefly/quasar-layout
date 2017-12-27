@@ -83,25 +83,25 @@ export default {
     //   return this.$router.options.routes.map((route) => route.path )}
   },
   methods: {
-      swiped(obj) {
+      swiped (obj) {
         let path = this.currentPath
-        let goto = function() {
+        let goto = function () {
           if (obj.direction == 'right') {
-            if (path == '/home') {
+            if (path === '/home') {
               return
-            } else if (path == '/about') {
+            } else if (path === '/about') {
               return '/home'
-            } else if (path == '/contact') {
+            } else if (path === '/contact') {
               return '/about'
             } else {
               return '/contact'
             }
           } else if (obj.direction == 'left') {
-            if (path == '/home') {
+            if (path === '/home') {
               return '/about'
-            } else if (path == '/about') {
+            } else if (path === '/about') {
               return '/contact'
-            } else if (path == '/contact') {
+            } else if (path === '/contact') {
               return '/more'
             } else {
               return
